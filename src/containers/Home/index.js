@@ -1,10 +1,13 @@
 import React from 'react';
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 const HomePage = () => {
 
   return (
-    <div className="App">
-      <h1>Hello</h1>
+    <div>
+      <Header />
+      <Footer />
     </div>
   )
 }
