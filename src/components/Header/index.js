@@ -48,7 +48,7 @@ const Header = () => {
               Login
             </Link>
           </nav>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}>
+          <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
             Create Account
           </Button>
         </Toolbar>
