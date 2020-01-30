@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { userDataRecieved } from '../Profile/reducer';
+import { authRequest } from './action';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,16 +35,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn = () => {
+const SignIn = props => {
+
   const classes = useStyles();
-  const handelSubmit = event =>{
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (props.isAuthorized) {
+      props.history.push("/");
+    }
+  }, [props.isAuthorized, props.history])
+
+  const handelSubmit = async event => {
     event.preventDefault()
-    console.log(event)
+    await props.authorizeUser()
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      {props.errorMessage &&
+        alert(props.errorMessage)}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -48,7 +64,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handelSubmit}>
+        <form className={classes.form} validate onSubmit={handelSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -59,6 +75,7 @@ const SignIn = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(event => setEmail(event.target.value))}
           />
           <TextField
             variant="outlined"
@@ -70,6 +87,7 @@ const SignIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(event => setPassword(event.target.value))}
           />
           <Button
             type="submit"
@@ -100,4 +118,17 @@ const SignIn = () => {
   );
 }
 
-export default SignIn;
+const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    authorizeUser: authRequest,
+    userData: userDataRecieved,
+  }, dispatch);
+}
+const mapStateToProps = (state) => {
+  return {
+    isAuthorized: state.AuthReducer.isAuthenticated,
+    errorMessage: state.AuthReducer.error
+  }
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SignIn);

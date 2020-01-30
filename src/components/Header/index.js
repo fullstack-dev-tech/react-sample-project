@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Header = () => {
+const Header = props => {
   const classes = useStyles();
 
   return (
@@ -43,14 +43,25 @@ const Header = () => {
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Heros
           </Typography>
-          <nav>
-            <Link variant="button" color="textPrimary" href="/login" className={classes.link}>
-              Login
+
+          {props.isAuthorized ? (
+            <nav>
+              <Link variant="button" color="textPrimary" href="/profile" className={classes.link} onClick={props.getUserData}>
+                Profile
             </Link>
-          </nav>
-          <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
-            Create Account
+            </nav>
+          ) : (
+              <nav>
+                <Link variant="button" color="textPrimary" href="/login" className={classes.link}>
+                  Login
+            </Link>
+              </nav>
+            )}
+          {!props.isAuthorized &&
+            <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
+              Create Account
           </Button>
+          }
         </Toolbar>
       </AppBar>
     </Container>
