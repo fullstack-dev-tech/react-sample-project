@@ -54,7 +54,6 @@ const SignIn = props => {
     event.preventDefault()
     let result = validate({ 'email': email, 'password': password })
     setError(result)
-    console.log(result)
     if (Object.entries(result).length === 0) {
       props.authorizeUser()
     }
