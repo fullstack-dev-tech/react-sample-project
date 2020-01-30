@@ -46,7 +46,12 @@ const Header = props => {
 
           {props.isAuthorized ? (
             <nav>
-              <Link variant="button" color="textPrimary" href="/profile" className={classes.link} onClick={props.getUserData}>
+              <Link
+                variant="button"
+                color="textPrimary"
+                href="/profile"
+                className={classes.link}
+                onClick={()=>props.getUserData()}>
                 Profile
             </Link>
             </nav>

@@ -14,6 +14,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userDataRecieved } from '../Profile/reducer';
 import { authRequest } from './action';
+import { validate } from './validation';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,6 +42,7 @@ const SignIn = props => {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState({});
 
   useEffect(() => {
     if (props.isAuthorized) {
@@ -49,7 +52,13 @@ const SignIn = props => {
 
   const handelSubmit = async event => {
     event.preventDefault()
-    await props.authorizeUser()
+    let response = validate({ 'email': email, 'password': password })
+    setError(response)
+    console.log(response)
+    if (Object.entries(response).length === 0) {
+      console.log('here')
+      props.authorizeUser()
+    }
   }
 
   return (
@@ -64,7 +73,7 @@ const SignIn = props => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} validate onSubmit={handelSubmit}>
+        <form className={classes.form} onSubmit={handelSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -77,6 +86,8 @@ const SignIn = props => {
             autoFocus
             onChange={(event => setEmail(event.target.value))}
           />
+          {error.email &&
+            <Typography color='error'>{error.email}</Typography>}
           <TextField
             variant="outlined"
             margin="normal"
@@ -89,6 +100,8 @@ const SignIn = props => {
             autoComplete="current-password"
             onChange={(event => setPassword(event.target.value))}
           />
+          {error.password &&
+            <Typography color='error'>{error.password}</Typography>}
           <Button
             type="submit"
             fullWidth

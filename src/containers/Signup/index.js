@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { validate } from '../../Validation';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -30,7 +31,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUp = () => {
+const SignUp = props => {
+  const classes = useStyles();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -38,11 +41,15 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState({})
 
-
-  const classes = useStyles();
   const handleSubmit = (event) => {
     event.preventDefault()
+    let result = validate({ 'number': phoneNumber, 'name': firstName, 'email': email, 'password': password })
+    setError(result)
+    if (Object.entries(result).length === 0) {
+      props.history.push('/login')
+    }
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -68,6 +75,8 @@ const SignUp = () => {
                 autoFocus
                 onChange={event => setFirstName(event.target.value)}
               />
+              {error.name &&
+                <Typography color='error'>{error.name}</Typography>}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,22 +101,24 @@ const SignUp = () => {
                 autoFocus
                 onChange={event => setPhoneNumber(event.target.value)}
               />
+              {error.number &&
+                <Typography color='error'>{error.number}</Typography>}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="dateOfBirth"
-                label="Date of Birth"
-                name="dateOfBirth"
-                onChange={event => setDateOfBirth(event.target.value)}
+              id="date"
+              label="Date of Birth"
+              type="date"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={event => setDateOfBirth(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="address"
                 label="Address"
@@ -126,6 +137,8 @@ const SignUp = () => {
                 autoComplete="email"
                 onChange={event => setEmail(event.target.value)}
               />
+              {error.email &&
+                <Typography color='error'>{error.email}</Typography>}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -139,6 +152,8 @@ const SignUp = () => {
                 autoComplete="current-password"
                 onChange={event => setPassword(event.target.value)}
               />
+              {error.password &&
+                <Typography color='error'>{error.password}</Typography>}
             </Grid>
           </Grid>
           <Button
