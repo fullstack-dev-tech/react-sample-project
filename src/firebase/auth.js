@@ -31,8 +31,8 @@ export async function signUpUser(
   dateOfBirth,
   password) {
   try {
-    await doCreateUserWithEmailAndPassword(email, password)
     await doCreateUser(firstName, lastName, phoneNumber, address, email, dateOfBirth)
+    await doCreateUserWithEmailAndPassword(email, password)
 
   } catch (error) {
     console.log(error)

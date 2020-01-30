@@ -52,11 +52,10 @@ const SignIn = props => {
 
   const handelSubmit = async event => {
     event.preventDefault()
-    let response = validate({ 'email': email, 'password': password })
-    setError(response)
-    console.log(response)
-    if (Object.entries(response).length === 0) {
-      console.log('here')
+    let result = validate({ 'email': email, 'password': password })
+    setError(result)
+    console.log(result)
+    if (Object.entries(result).length === 0) {
       props.authorizeUser()
     }
   }
