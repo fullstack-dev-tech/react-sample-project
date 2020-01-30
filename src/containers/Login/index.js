@@ -55,7 +55,7 @@ const SignIn = props => {
     let result = validate({ 'email': email, 'password': password })
     setError(result)
     if (Object.entries(result).length === 0) {
-      props.authorizeUser()
+      props.authorizeUser({email,password})
     }
   }
 

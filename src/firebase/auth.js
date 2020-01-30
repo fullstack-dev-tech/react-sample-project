@@ -21,15 +21,14 @@ export const doPasswordReset = (email) =>
 export const doPasswordUpdate = (password) =>
   auth.currentUser.updatePassword(password);
 
-
 export async function signUpUser(
-  firstName,
-  lastName,
-  phoneNumber,
-  address,
-  email,
-  dateOfBirth,
-  password) {
+  { firstName,
+    lastName,
+    phoneNumber,
+    address,
+    email,
+    dateOfBirth,
+    password }) {
   try {
     await doCreateUser(firstName, lastName, phoneNumber, address, email, dateOfBirth)
     await doCreateUserWithEmailAndPassword(email, password)

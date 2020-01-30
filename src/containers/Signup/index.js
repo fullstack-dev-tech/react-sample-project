@@ -10,7 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { validate } from '../../Validation';
-
+import { signUpUserAction } from './action'
+import { connect } from 'react-redux';
+import { signUpUser } from '../../firebase/auth'
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -43,12 +45,21 @@ const SignUp = props => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState({})
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     let result = validate({ 'number': phoneNumber, 'name': firstName, 'email': email, 'password': password })
     setError(result)
     if (Object.entries(result).length === 0) {
-      props.history.push('/login')
+      props.signUpUserAction({
+        firstName,
+        lastName,
+        phoneNumber,
+        address,
+        email,
+        dateOfBirth,
+        password
+      })
+      // props.history.push('/login')
     }
   }
   return (
@@ -106,14 +117,14 @@ const SignUp = props => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-              id="date"
-              label="Date of Birth"
-              type="date"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={event => setDateOfBirth(event.target.value)}
+                id="date"
+                label="Date of Birth"
+                type="date"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={event => setDateOfBirth(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -187,4 +198,12 @@ const SignUp = props => {
   );
 }
 
-export default SignUp;
+// const mapStateToProps = (state) => {
+//   return {
+//     isAuthorized: state.AuthReducer.isAuthenticated,
+//     errorMessage: state.AuthReducer.error
+//   }
+// }
+
+export default connect(null, { signUpUserAction })(SignUp);
+

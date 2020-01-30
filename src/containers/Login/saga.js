@@ -1,13 +1,11 @@
 import { call, put } from 'redux-saga/effects';
 import { userAuthenticated, userAuthenticationFailed } from './reducer';
+import { signIn } from '../../firebase/auth'
 
-const authApi = () => {
-  return console.log('done')
-}
 
-export function* authRequest() {
+export function* authRequest(action) {
   try {
-    yield call(authApi)
+    yield call(signIn,action.payload.email,action.payload.password)
     yield put(userAuthenticated())
   }
   catch (error) {

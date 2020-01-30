@@ -21,11 +21,12 @@ export const doCreateUser = (
 export const getUserDetail = async (email) => {
   const userRef = db.collection('users').doc(`${email}`);
   const getDoc = await userRef.get();
-  return getDoc;
+  const snapshot = await getDoc.data();
+  return snapshot;
 }
 
 export const updateUser = async (email, data) => {
   const userRef = db.collection('users').doc(`${email}`);
-  // Set the 'capital' field of the city
+  // Set the field of the user provided
   userRef.update({ ...data });
 }
