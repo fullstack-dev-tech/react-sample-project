@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-// import { getMe } from '../Profile/reducer';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 import { validate } from './validation';
-// import { login } from './reducer';
+import InputField from '../../components/Forms/InputField';
+import Link from '../../components/Link';
+
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
+  card: {
+    marginTop: theme.spacing(6),
+    padding: theme.spacing(4, 3),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -35,7 +33,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,76 +48,64 @@ const SignIn = props => {
     event.preventDefault()
     let result = validate({ 'email': email, 'password': password });
     setError(result);
-    if (true) {
+    if (!Object.keys(result).length) {
       props.authorizeUser({email,password})
     }
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      {props.errorMessage &&
-        alert(props.errorMessage)}
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+    <Container maxWidth="sm">
+      <Card className={classes.card}>
+        <Typography variant="h4">
           Sign in
         </Typography>
         <form className={classes.form} onSubmit={handelSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={(event => setEmail(event.target.value))}
-          />
-          {error.email &&
-            <Typography color='error'>{error.email}</Typography>}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(event => setPassword(event.target.value))}
-          />
-          {error.password &&
-            <Typography color='error'>{error.password}</Typography>}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <InputField
+                required
+                fullWidth
+                label="Email Address"
+                onChange={(event => setEmail(event.target.value))}
+              />
+              {error.email &&
+                <Typography color='error'>{error.email}</Typography>}
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+            <Grid item xs={12}>
+              <InputField
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                onChange={(event => setPassword(event.target.value))}
+              />
+              {error.password &&
+                <Typography color='error'>{error.password}</Typography>}
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to="/login">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/signup">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
           </Grid>
         </form>
-      </div>
-      <Box mt={8}>
-      </Box>
+      </Card>
     </Container>
   );
 }

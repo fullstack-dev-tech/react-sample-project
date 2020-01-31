@@ -43,6 +43,9 @@ const ProfileForm = ({
   const [email, setEmail] = useState(values.email);
   const [dateOfBirth, setDateOfBirth] = useState(values.dateOfBirth);
   const [password, setPassword] = useState(values.password);
+  const [answerOne, setAnswerOne] = useState(values.password);
+  const [answerTwo, setAnswerTwo] = useState(values.password);
+  const [answerThree, setAnswerThree] = useState(values.password);
   const [confirmPassword, setConfirmPassword] = useState(values.confirmPassword);
   const [error, setError] = useState({});
 
@@ -122,16 +125,7 @@ const ProfileForm = ({
               onChange={event => setDateOfBirth(event.target.value)}
             />
           </Grid>
-          <Grid item xs={12}>
-            <InputField
-              required
-              label="Address"
-              value={address}
-              error={error.address}
-              onChange={event => setAddress(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <InputField
               required
               label="Email Address"
@@ -140,7 +134,16 @@ const ProfileForm = ({
               error={error.email}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
+            <InputField
+              required
+              label="Address"
+              value={address}
+              error={error.address}
+              onChange={event => setAddress(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
             <InputField
               required
               label="Password"
@@ -150,14 +153,37 @@ const ProfileForm = ({
               error={error.password}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <InputField
               required
               label="Confirm Password"
               type="password"
               value={confirmPassword}
               onChange={event => setConfirmPassword(event.target.value)}
-              error={error.confirmPassword}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              required
+              label="Question 1 goes here..........."
+              value={answerOne}
+              onChange={event => setAnswerOne(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              required
+              label="Question 2 goes here..........."
+              value={answerTwo}
+              onChange={event => setAnswerTwo(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              required
+              label="Question 3 goes here..........."
+              value={answerThree}
+              onChange={event => setAnswerThree(event.target.value)}
             />
           </Grid>
         </Grid>
