@@ -44,6 +44,7 @@ const SignUp = props => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({})
+  const [file, setFile] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -57,9 +58,10 @@ const SignUp = props => {
         address,
         email,
         dateOfBirth,
-        password
+        password,
+        file,
       })
-      // props.history.push('/login')
+      props.history.push('/login')
     }
   }
   return (
@@ -176,9 +178,11 @@ const SignUp = props => {
             className={classes.submit}
           >
             Choose Photo
-            <input
-              type="file"
-              style={{ display: "none" }}
+            <input 
+              type="file" 
+              accept="image/*"
+              style={{ display: "none" }} 
+              onChange={(event) => setFile(event.target.files[0])} 
             />
           </Button>
           <Button
@@ -198,12 +202,11 @@ const SignUp = props => {
   );
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     isAuthorized: state.AuthReducer.isAuthenticated,
-//     errorMessage: state.AuthReducer.error
-//   }
-// }
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  }
+}
 
-export default connect(null, { signUpUserAction: signup })(SignUp);
+export default connect(mapStateToProps, { signUpUserAction: signup })(SignUp);
 
