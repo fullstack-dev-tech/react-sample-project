@@ -1,21 +1,26 @@
 import { db } from './firebase';
 
-// Users
-export const doCreateUser = (
+export const setUserData = ({ 
   firstName,
   lastName,
   phoneNumber,
   address,
   email,
   dateOfBirth,
-) =>
-  db.collection('users').doc(`${email}`).set({
+  password,
+  profilePicUrl, 
+}) => db
+  .collection('users')
+  .doc(`${email}`)
+  .set({
     firstName,
     lastName,
     phoneNumber,
     address,
     email,
     dateOfBirth,
+    password,
+    profilePicUrl, 
   });
 
 export const getUserDetail = async (email) => {
@@ -27,6 +32,5 @@ export const getUserDetail = async (email) => {
 
 export const updateUser = async (email, data) => {
   const userRef = db.collection('users').doc(`${email}`);
-  // Set the field of the user provided
   userRef.update({ ...data });
 }

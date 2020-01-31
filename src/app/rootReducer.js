@@ -1,9 +1,8 @@
-import AuthReducer from '../containers/Login/reducer';
-import ProfileReducer from '../containers/Profile/reducer';
+import { combineReducers } from 'redux';
+import login from '../containers/Login/reducer';
+import user from '../containers/Profile/reducer';
+import signup from '../containers/Signup/reducer';
 
-const rootReducer = {
-  AuthReducer,
-  ProfileReducer,
-};
+const authentication = combineReducers({ login, signup });
 
-export default rootReducer;
+export default combineReducers({ authentication, user });

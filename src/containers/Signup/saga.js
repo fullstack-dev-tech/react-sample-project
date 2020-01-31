@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { signUpUser } from '../../firebase/auth';
+import { signUpUser } from '../../firebase';
 import { signup, signupSuccess, signupFailure } from './reducer';
 
 function* signUpUserSaga(action) {
