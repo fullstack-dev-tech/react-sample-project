@@ -1,21 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = { isAuthenticated: false, userData: {} }
-
-const ProfileSlice = createSlice({
-  name: 'ProfileSlice',
-  initialState: initialState,
+const configSlice = createSlice({
+  name: 'user',
+  initialState: {
+    error: null,
+    user: null,
+    loading: false,
+  },
   reducers: {
-    userAuthenticated: (state) => {
-      state.isAuthenticated = true
-      return state
+    getMe(state) {
+      state.loading = true;
     },
-    userDataRecieved: (state, actions) => {
-      state.userData = actions.payload
+    getMeSuccess(state, action) {
+      state.user = action.payload;
+      state.loading = false;
+    },
+    getMeFailure(state, action) {
+      state.error = action.payload;
+      state.loading = false;
     }
   }
 })
 
-export const { userDataRecieved } = ProfileSlice.actions
+const { actions, reducer } = configSlice;
 
-export default ProfileSlice
+export const { getMe, getMeSuccess, getMeFailure } = actions;
+
+export default reducer;
+

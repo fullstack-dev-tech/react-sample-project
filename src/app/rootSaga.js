@@ -1,28 +1,17 @@
-import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
-
+import createSagaMiddleware from 'redux-saga';
 import signUpSaga from '../containers/Signup/saga';
-
-
-// import { authRequest } from '../containers/Login/saga'
-// import { takeLatest } from 'redux-saga/effects'
-// import { authRequestAction } from '../constant';
-// import { getUserData } from '../constant';
-// import { userDataRequest } from '../containers/Profile/saga'
-// import { signUpUserSaga } from '../containers/Signup/saga'
-// import { signUpUserAction } from '../containers/Signup/action'
+import userSaga from '../containers/Profile/saga';
+import loginSaga from '../containers/Login/saga';
 
 function* rootSaga() {
   yield all(
     [ 
       fork(signUpSaga), 
-      // fork(saga2), 
-      // fork(saga3), 
+      fork(userSaga), 
+      fork(loginSaga), 
     ]
   );
-  // yield takeLatest(authRequestAction, authRequest)
-  // yield takeLatest(getUserData, userDataRequest)
-  // yield takeLatest(signUpUserAction, signUpUserSaga)
 }
 
 const sagaMiddleware = createSagaMiddleware()

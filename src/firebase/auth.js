@@ -46,6 +46,5 @@ export async function signIn(email, password) {
     userDetail = await getUserDetail(email)
   } catch (error) {
     throw new Error(error.message)
-
   }
 }

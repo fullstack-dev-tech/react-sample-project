@@ -1,16 +1,19 @@
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { signUpUser } from '../../firebase/auth';
-import { signUpUserAction } from './action'
+import { signup, signupSuccess, signupFailure } from './reducer';
 
 function* signUpUserSaga(action) {
   try {
-    yield call(signUpUser, action.payload)
+    yield call(signUpUser, action.payload);
+    console.log('Signup Success: ');
+    yield put({ type: signupSuccess.type });
   }
   catch (error) {
-    // yield put()
+    console.log('Error in Signup: ', error);
+    yield put({ type: signupFailure.type, payload: error.message });
   }
 }
 
 export default function* main() {
-  yield takeEvery(signUpUserAction, signUpUserSaga);
+  yield takeEvery(signup.type, signUpUserSaga);
 }

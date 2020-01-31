@@ -2,22 +2,22 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_CALL_STATUS } from '../../constant';
 
 const configSlice = createSlice({
-  name: 'login',
+  name: 'signup',
   initialState: {
     error: null,
     state: API_CALL_STATUS.NOT_STARTED,
     loading: false,
   },
   reducers: {
-    login(state) {
+    signup(state) {
       state.state = API_CALL_STATUS.STARTED;
       state.loading = true;
     },
-    loginSuccess(state) {
+    signupSuccess(state) {
       state.state = API_CALL_STATUS.SUCCESS;
       state.loading = false;
     },
-    loginFailure(state, action) {
+    signupFailure(state, action) {
       state.state = API_CALL_STATUS.FAILURE;
       state.error = action.payload;
       state.loading = false;
@@ -27,7 +27,6 @@ const configSlice = createSlice({
 
 const { actions, reducer } = configSlice;
 
-export const { login, loginSuccess, loginFailure } = actions;
+export const { signup, signupSuccess, signupFailure } = actions;
 
 export default reducer;
-

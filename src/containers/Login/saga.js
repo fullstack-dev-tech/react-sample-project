@@ -1,14 +1,19 @@
-import { call, put } from 'redux-saga/effects';
-import { userAuthenticated, userAuthenticationFailed } from './reducer';
-import { signIn } from '../../firebase/auth'
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { signIn } from '../../firebase/auth';
+import { login, loginSuccess, loginFailure } from './reducer';
 
-
-export function* authRequest(action) {
+function* getMeSaga(action) {
   try {
-    yield call(signIn,action.payload.email,action.payload.password)
-    yield put(userAuthenticated())
+    const user = yield call(signIn, action.payload);
+    console.log('Login Success: ', user);
+    yield put({ type: loginSuccess.type, payload: { ...user } });
   }
   catch (error) {
-    yield put(userAuthenticationFailed())
+    console.log('Login Error: ', error);
+    yield put({ type: loginFailure.type, payload: error.message });
   }
+}
+
+export default function* main() {
+  yield takeEvery(login.type, getMeSaga);
 }

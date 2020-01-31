@@ -1,12 +1,12 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import profileImage from '../../hi.jpg';
 import { makeStyles } from '@material-ui/core/styles';
+import profileImage from '../../hi.jpg';
 
 const useStyles = makeStyles(theme => ({
   image: {
-    width: "54px",
-    height: "54px",
+    width: '54px',
+    height: '54px',
     display: 'table',
     margin: '0 auto',
   }

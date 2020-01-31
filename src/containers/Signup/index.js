@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { validate } from '../../validation';
-import { signUpUserAction } from './action'
 import { connect } from 'react-redux';
+import { signup } from './reducer';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -205,5 +205,5 @@ const SignUp = props => {
 //   }
 // }
 
-export default connect(null, { signUpUserAction })(SignUp);
+export default connect(null, { signUpUserAction: signup })(SignUp);
 

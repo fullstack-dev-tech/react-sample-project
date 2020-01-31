@@ -10,12 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { userDataRecieved } from '../Profile/reducer';
-import { authRequest } from './action';
+import { getMe } from '../Profile/reducer';
 import { validate } from './validation';
-
+import { login } from './reducer';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -129,12 +127,11 @@ const SignIn = props => {
   );
 }
 
-const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    authorizeUser: authRequest,
-    userData: userDataRecieved,
-  }, dispatch);
-}
+const matchDispatchToProps = (dispatch) => ({
+  authorizeUser: login,
+  userData: getMe,
+});
+
 const mapStateToProps = (state) => {
   return {
     isAuthorized: state.AuthReducer.isAuthenticated,
