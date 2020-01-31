@@ -15,20 +15,16 @@ const config = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-console.log(config,"config")
-
 if (!firebase.apps.length) {
-firebase.initializeApp(config);
+  firebase.initializeApp(config);
 }
 
 const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
 
-console.log(auth)
-
 export {
-db,
-auth,
-storage,
+  db,
+  auth,
+  storage,
 };

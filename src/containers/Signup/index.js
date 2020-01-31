@@ -9,10 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { validate } from '../../Validation';
+import { validate } from '../../validation';
 import { signUpUserAction } from './action'
 import { connect } from 'react-redux';
-import { signUpUser } from '../../firebase/auth'
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
