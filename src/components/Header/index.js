@@ -53,9 +53,10 @@ const Header = props => {
                 color="textPrimary"
                 href="/profile"
                 className={classes.link}
-                onClick={()=>props.getUserData()}>
+                onClick={()=>props.getUserData()}
+              >
                 Profile
-            </Link>
+              </Link>
             </nav>
           )}
           {!props.isAuthorized && !isOnLoginPage && (
@@ -66,7 +67,7 @@ const Header = props => {
             </nav>
           )}
           {!props.isAuthorized && !isOnSignupPage && (
-            <Button href="/signup" variant="outlined" className={classes.link}>
+            <Button variant="outlined" className={classes.link}>
               <Link color="textPrimary" to={ROUTES.SIGNUP}>
                 Create Account
               </Link>

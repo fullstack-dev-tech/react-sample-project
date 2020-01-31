@@ -9,7 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { validate } from './validation';
 import InputField from '../../components/Forms/InputField';
 import Link from '../../components/Link';
-
+import { login } from './reducer';
+import { getMe } from '../Profile/reducer';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -110,10 +111,10 @@ const SignIn = props => {
   );
 }
 
-// const matchDispatchToProps = {
-//   authorizeUser: login,
-//   userData: getMe,
-// };
+const matchDispatchToProps = {
+  authorizeUser: login,
+  userData: getMe,
+};
 
 // const mapStateToProps = (state) => {
 //   return {
@@ -122,4 +123,4 @@ const SignIn = props => {
 //   }
 // }
 
-export default connect(null, null)(SignIn);
+export default connect(null, matchDispatchToProps)(SignIn);

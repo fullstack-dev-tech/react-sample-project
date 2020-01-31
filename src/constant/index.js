@@ -19,4 +19,5 @@ export const ROUTES = {
   SIGNUP: '/signup',
   LOGIN: '/login',
   PROFILE: '/profile',
+  EDIT_PROFILE: '/edit-profile',
 };

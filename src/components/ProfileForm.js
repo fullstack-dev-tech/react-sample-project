@@ -53,7 +53,7 @@ const ProfileForm = ({
 
   const onImageUpload = (event) => {
     setProfilePicUrl(event.target.files[0])
-  }
+  };
 
   const onSubmit = () => {
     const errors = validate({

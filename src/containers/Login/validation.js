@@ -16,5 +16,5 @@ export const validate = values => {
   if (values['password'] && !values['password'].match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#$%&'*+-/=?^_`{|}~]).{8,}/)) {
     errors['password'] = INVALID_PASSWORD;
   }
-  return errors;
+  return {};
 };

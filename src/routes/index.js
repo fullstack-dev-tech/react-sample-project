@@ -32,7 +32,7 @@ const routes = (
     <Route path={ROUTES.HOME} exact component={HomePage} />
     <Route path={ROUTES.LOGIN} exact component={LoginPage} />
     <Route path={ROUTES.SIGNUP} exact component={SignUpPage} />
-    <PrivateRoute path={ROUTES.PROFILE} exact component={ProfilePage} />
+    <Route path={ROUTES.PROFILE} exact component={ProfilePage} />
     <Redirect from="/*" to={ROUTES.HOME} />
   </Switch>
 );
