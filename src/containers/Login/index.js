@@ -10,9 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import { getMe } from '../Profile/reducer';
+// import { getMe } from '../Profile/reducer';
 import { validate } from './validation';
-import { login } from './reducer';
+// import { login } from './reducer';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -125,16 +125,16 @@ const SignIn = props => {
   );
 }
 
-const matchDispatchToProps = {
-  authorizeUser: login,
-  userData: getMe,
-};
+// const matchDispatchToProps = {
+//   authorizeUser: login,
+//   userData: getMe,
+// };
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthorized: state.AuthReducer.isAuthenticated,
-    errorMessage: state.AuthReducer.error
-  }
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     isAuthorized: state.AuthReducer.isAuthenticated,
+//     errorMessage: state.AuthReducer.error
+//   }
+// }
 
-export default connect(mapStateToProps, matchDispatchToProps)(SignIn);
+export default connect(null, null)(SignIn);
