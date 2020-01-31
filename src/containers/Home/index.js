@@ -1,6 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getUserData } from '../../constant'
@@ -8,9 +6,7 @@ import { getUserData } from '../../constant'
 const HomePage = props => {
   return (
     <div>
-      <Header isAuthorized={props.isAuthorized} getUserData={props.getUserData}/>
-      <h1>Need to add some heros</h1>
-      <Footer />
+    
     </div>
   )
 }

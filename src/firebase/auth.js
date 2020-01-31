@@ -40,11 +40,15 @@ export async function signUpUser(
 }
 
 export async function signIn(email, password) {
-  let user, userDetail
   try {
-    user = await doSignInWithEmailAndPassword(email, password)
-    userDetail = await getUserDetail(email)
+    const user = await doSignInWithEmailAndPassword(email, password);
+    const profile = await getUserDetail(email);
+
+    return {
+      ...user,
+      profile
+    };
   } catch (error) {
     throw new Error(error.message)
   }
-}
+};

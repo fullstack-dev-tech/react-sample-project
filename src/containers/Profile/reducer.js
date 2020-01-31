@@ -27,4 +27,3 @@ const { actions, reducer } = configSlice;
 export const { getMe, getMeSuccess, getMeFailure } = actions;
 
 export default reducer;
-

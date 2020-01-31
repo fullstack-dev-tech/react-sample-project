@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     height: '54px',
     display: 'table',
     margin: '0 auto',
-  }
+  },
 }));
 
 const Profile = () => {
@@ -21,7 +21,7 @@ const Profile = () => {
         <Image className="img-fluid" src={profileImage} roundedCircle />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Profile;

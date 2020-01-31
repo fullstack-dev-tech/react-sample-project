@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -50,16 +49,15 @@ const SignIn = props => {
 
   const handelSubmit = async event => {
     event.preventDefault()
-    let result = validate({ 'email': email, 'password': password })
-    setError(result)
-    if (Object.entries(result).length === 0) {
+    let result = validate({ 'email': email, 'password': password });
+    setError(result);
+    if (true) {
       props.authorizeUser({email,password})
     }
   }
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       {props.errorMessage &&
         alert(props.errorMessage)}
       <div className={classes.paper}>
@@ -127,10 +125,10 @@ const SignIn = props => {
   );
 }
 
-const matchDispatchToProps = (dispatch) => ({
+const matchDispatchToProps = {
   authorizeUser: login,
   userData: getMe,
-});
+};
 
 const mapStateToProps = (state) => {
   return {
