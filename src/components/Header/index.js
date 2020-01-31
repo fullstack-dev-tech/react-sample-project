@@ -1,11 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import { Container } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
+import { ROUTES } from '../../constant';
+import Link from '../../components/Link';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -33,6 +35,8 @@ const useStyles = makeStyles(theme => ({
 
 const Header = props => {
   const classes = useStyles();
+  const isOnLoginPage = props.location.pathname === ROUTES.LOGIN;
+  const isOnSignupPage = props.location.pathname === ROUTES.SIGNUP;
 
   return (
     <Container>
@@ -42,7 +46,7 @@ const Header = props => {
             Heros
           </Typography>
 
-          {props.isAuthorized ? (
+          {props.isAuthorized && (
             <nav>
               <Link
                 variant="button"
@@ -53,22 +57,25 @@ const Header = props => {
                 Profile
             </Link>
             </nav>
-          ) : (
-              <nav>
-                <Link variant="button" color="textPrimary" href="/login" className={classes.link}>
-                  Login
-            </Link>
-              </nav>
-            )}
-          {!props.isAuthorized &&
-            <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
-              Create Account
-          </Button>
-          }
+          )}
+          {!props.isAuthorized && !isOnLoginPage && (
+            <nav>
+              <Link color="textPrimary" to={ROUTES.LOGIN} className={classes.link}>
+                Login
+              </Link>
+            </nav>
+          )}
+          {!props.isAuthorized && !isOnSignupPage && (
+            <Button href="/signup" variant="outlined" className={classes.link}>
+              <Link color="textPrimary" to={ROUTES.SIGNUP}>
+                Create Account
+              </Link>
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Container>
-  )
-}
+  );
+};
 
-export default Header;
+export default withRouter(Header);

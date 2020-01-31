@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import InputField from './Forms/InputField';
 import { validate } from '../validation';
+import UploadFile from './Forms/UploadFile'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -48,6 +49,11 @@ const ProfileForm = ({
   const [answerThree, setAnswerThree] = useState(values.password);
   const [confirmPassword, setConfirmPassword] = useState(values.confirmPassword);
   const [error, setError] = useState({});
+  const [profilePicUrl, setProfilePicUrl] = useState(values.profilePicUrl);
+
+  const onImageUpload = (event) => {
+    setProfilePicUrl(event.target.files[0])
+  }
 
   const onSubmit = () => {
     const errors = validate({
@@ -60,7 +66,7 @@ const ProfileForm = ({
       dateOfBirth,
       address,
     });
-  
+
     if (Object.entries(errors).length === 0) {
       handleSubmit({
         firstName,
@@ -70,6 +76,7 @@ const ProfileForm = ({
         email,
         dateOfBirth,
         password,
+        profilePicUrl,
       });
     } else {
       setError(errors);
@@ -187,20 +194,7 @@ const ProfileForm = ({
             />
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          component="label"
-          color='primary'
-          type="input"
-          fullWidth
-          className={classes.submit}
-        >
-          Choose Photo
-            <input
-            type="file"
-            style={{ display: "none" }}
-          />
-        </Button>
+        <UploadFile onChange={event => onImageUpload(event)} />
         <Button
           fullWidth
           variant="contained"
@@ -209,7 +203,7 @@ const ProfileForm = ({
           onClick={onSubmit}
         >
           {submitActionText}
-          </Button>
+        </Button>
       </form>
     </Card>
   );

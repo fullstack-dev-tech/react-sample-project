@@ -1,28 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-import { Box } from '@material-ui/core';
 
-const UploadForm = ({ onChange }) => (
-  <Box>
-    <Input
-      accept="image/*"
-      style={{ display: 'none' }}
-      id="raised-button-file"
+const UploadFile = ({ onChange }) => (
+  <Button
+    fullWidth
+    variant="contained"
+    color="primary"
+  >
+    Upload Profile Image
+    <input
       type="file"
       onChange={onChange}
+      style={{ display: "none" }}
     />
-    <label>
-      <Button component="span">
-        Upload
-      </Button>
-    </label>
-  </Box>
+  </Button>
 );
 
-UploadForm.propTypes = {
+UploadFile.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default UploadForm;
+export default UploadFile;

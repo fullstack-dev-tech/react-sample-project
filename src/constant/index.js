@@ -13,3 +13,10 @@ export const API_CALL_STATUS = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',
 };
+
+export const ROUTES = {
+  HOME: '/',
+  SIGNUP: '/signup',
+  LOGIN: '/login',
+  PROFILE: '/profile',
+};

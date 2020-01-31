@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@material-ui/core/Box';
+import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import routes from '../routes';
 import { startSaga } from './rootSaga';
@@ -8,17 +9,21 @@ import Footer from '../components/Footer';
 import PageWrapper from '../components/PageWrapper';
 
 const App = () => {
-  startSaga();
+  useEffect(() => {
+    startSaga();
+  }, []);
 
   return (
-    <Box>
-      <CssBaseline />
-      <Header />
-      <PageWrapper>
-        {routes}
-      </PageWrapper>
-      <Footer />
-    </Box>
+    <BrowserRouter>
+      <Box>
+        <CssBaseline />
+        <Header />
+        <PageWrapper>
+          {routes}
+        </PageWrapper>
+        <Footer />
+      </Box>
+    </BrowserRouter>
   )
 }
 
