@@ -6,6 +6,7 @@ const configSlice = createSlice({
   initialState: {
     error: null,
     state: API_CALL_STATUS.NOT_STARTED,
+    securityQuestions: [],
     loading: false,
   },
   reducers: {
@@ -21,12 +22,32 @@ const configSlice = createSlice({
       state.state = API_CALL_STATUS.FAILURE;
       state.error = action.payload;
       state.loading = false;
-    }
+    },
+    getSecurityQuestions(state) {
+      state.loading = true;
+    },
+    getSecurityQuestionsSuccess(state, action) {
+      state.securityQuestions = action.payload;
+      state.loading = false;
+    },
+    getSecurityQuestionsFailure(state, action) {
+      state.loading = false;
+    },
+    logout(state) {
+      state.state = API_CALL_STATUS.NOT_STARTED;
+    },
   }
 })
 
 const { actions, reducer } = configSlice;
 
-export const { signup, signupSuccess, signupFailure } = actions;
+export const { 
+  signup, 
+  signupSuccess, 
+  signupFailure, 
+  getSecurityQuestions, 
+  getSecurityQuestionsSuccess, 
+  getSecurityQuestionsFailure, 
+} = actions;
 
 export default reducer;

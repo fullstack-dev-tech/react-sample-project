@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
-    minHeight: `calc(100vh - ${theme.spacing(10 + 8.5)}px)`,
+    minHeight: `calc(100vh - ${theme.spacing(10 + 8)}px)`,
   },
 }));
 

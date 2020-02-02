@@ -6,11 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import { validate } from './validation';
+import { validateLogin } from '../../validation';
 import InputField from '../../components/Forms/InputField';
-import Link from '../../components/Link';
 import { login } from './reducer';
-import { getMe } from '../Profile/reducer';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -40,17 +38,17 @@ const SignIn = props => {
   const [error, setError] = useState({});
 
   useEffect(() => {
-    if (props.isAuthorized) {
-      props.history.push("/");
+    if (props.isAuthenticated) {
+      props.history.push('/profile');
     }
-  }, [props.isAuthorized, props.history])
+  }, [props.history, props.isAuthenticated])
 
   const handelSubmit = async event => {
     event.preventDefault()
-    let result = validate({ 'email': email, 'password': password });
+    let result = validateLogin({ 'email': email, 'password': password });
     setError(result);
     if (!Object.keys(result).length) {
-      props.authorizeUser({email,password})
+      props.login({ email,password })
     }
   }
 
@@ -89,21 +87,10 @@ const SignIn = props => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={props.loading}
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/login">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Grid>
         </form>
       </Card>
@@ -111,16 +98,15 @@ const SignIn = props => {
   );
 }
 
-const matchDispatchToProps = {
-  authorizeUser: login,
-  userData: getMe,
-};
+const matchDispatchToProps = { login };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     isAuthorized: state.AuthReducer.isAuthenticated,
-//     errorMessage: state.AuthReducer.error
-//   }
-// }
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.user.isAuthenticated,
+    loginState: state.authentication.login.state,
+    loading: state.authentication.login.loading,
+    errorMessage: state.authentication.login.error
+  }
+}
 
-export default connect(null, matchDispatchToProps)(SignIn);
+export default connect(mapStateToProps, matchDispatchToProps)(SignIn);

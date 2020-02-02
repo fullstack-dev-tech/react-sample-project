@@ -1,6 +1,7 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { getUserDetail } from '../../firebase/db';
-import { getMe, getMeSuccess, getMeFailure } from './reducer';
+import { call, put, takeEvery, take, fork } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
+import { getUserDetail, authStateChanged } from '../../firebase';
+import { getMe, getMeSuccess, getMeFailure, updateAuthentication } from './reducer';
 
 function* getMeSaga(action) {
   try {
@@ -14,6 +15,30 @@ function* getMeSaga(action) {
   }
 }
 
+function createUserAuthStateChannel() {
+  return eventChannel(emit => {
+    authStateChanged(user => emit(!!user));
+
+    return function() {
+      console.log('UnSubscribing Auth State Channel');
+    }
+  })
+}
+
+export function* watchUserAuthState() {
+  const channel = yield call(createUserAuthStateChannel)
+  while (true) {
+    try {
+      const payload = yield take(channel)
+      console.log('----USer Data: ', payload);
+      yield put({ type: updateAuthentication.type, payload: { isAuthenticated: payload }})
+    } catch(err) {
+      console.error('socket error:', err)
+    }
+  }
+}
+
 export default function* main() {
+  yield fork(watchUserAuthState);
   yield takeEvery(getMe.type, getMeSaga);
 }

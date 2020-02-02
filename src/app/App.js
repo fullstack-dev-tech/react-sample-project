@@ -1,30 +1,44 @@
 import React, { useEffect } from 'react';
 import Box from '@material-ui/core/Box';
-import { BrowserRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import routes from '../routes';
 import { startSaga } from './rootSaga';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageWrapper from '../components/PageWrapper';
+import { logout } from '../containers/Login/reducer';
+import history from './history';
 
-const App = () => {
+const App = (props) => {
   useEffect(() => {
-    startSaga();
+    startSaga();  
   }, []);
 
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <Box>
         <CssBaseline />
-        <Header />
+        <Header {...props}/>
         <PageWrapper>
           {routes}
         </PageWrapper>
         <Footer />
       </Box>
-    </BrowserRouter>
+    </Router>
   )
 }
 
-export default App;
+const matchDispatchToProps = {
+  logout,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.user.isAuthenticated,
+    user: state.user.user,
+  }
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(App);

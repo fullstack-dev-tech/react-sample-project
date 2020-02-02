@@ -1,10 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const userInitialState = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
+  dateOfBirth: '',
+};
+
 const configSlice = createSlice({
   name: 'user',
   initialState: {
     error: null,
-    user: null,
+    user: userInitialState,
+    isAuthenticated: false,
     loading: false,
   },
   reducers: {
@@ -18,12 +28,15 @@ const configSlice = createSlice({
     getMeFailure(state, action) {
       state.error = action.payload;
       state.loading = false;
+    },
+    updateAuthentication(state, action) {
+      state.isAuthenticated = action.payload.isAuthenticated;
     }
   }
 })
 
 const { actions, reducer } = configSlice;
 
-export const { getMe, getMeSuccess, getMeFailure } = actions;
+export const { getMe, getMeSuccess, getMeFailure, updateAuthentication } = actions;
 
 export default reducer;

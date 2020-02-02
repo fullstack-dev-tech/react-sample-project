@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import { db, auth } from './firebase';
 
 export const setUserData = ({ 
   firstName,
@@ -7,7 +7,6 @@ export const setUserData = ({
   address,
   email,
   dateOfBirth,
-  password,
   profilePicUrl, 
 }) => db
   .collection('users')
@@ -19,20 +18,25 @@ export const setUserData = ({
     address,
     email,
     dateOfBirth,
-    password,
     profilePicUrl, 
   });
 
-export const getUserDetail = async (email) => {
+export const getUserDetail = async () => {
+  const email = auth.currentUser.email;
   const userRef = db.collection('users').doc(`${email}`);
   const getDoc = await userRef.get();
   const snapshot = await getDoc.data();
   return snapshot;
 }
 
-export const updateUser = async (email, data) => {
+export const updateUserInDB = async (data) => {
+  const email = auth.currentUser.email;
   const userRef = db.collection('users').doc(`${email}`);
-  userRef.update({ ...data });
+  try {
+    await userRef.update({ ...data });
+  } catch (error) {
+    throw error;
+  }
 }
 
 export const getSecurityQuestions = async () => {
@@ -43,7 +47,10 @@ export const getSecurityQuestions = async () => {
     throw new Error("No security questions found")
   }
   snapshots.forEach(doc => {
-    questions[doc.id] = doc.data().description;
+    questions.push({
+      id: doc.id,
+      description: doc.data().description,
+    })
   });
   return questions
 } 

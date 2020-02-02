@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Header = props => {
+const Header = ({ location, logout, isAuthenticated, user }) => {
   const classes = useStyles();
-  const isOnLoginPage = props.location.pathname === ROUTES.LOGIN;
-  const isOnSignupPage = props.location.pathname === ROUTES.SIGNUP;
+  const isOnLoginPage = location.pathname === ROUTES.LOGIN;
+  const isOnSignupPage = location.pathname === ROUTES.SIGNUP;
 
   return (
     <Container>
@@ -45,33 +45,31 @@ const Header = props => {
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Heros
           </Typography>
-
-          {props.isAuthorized && (
-            <nav>
-              <Link
-                variant="button"
-                color="textPrimary"
-                href="/profile"
-                className={classes.link}
-                onClick={()=>props.getUserData()}
-              >
-                Profile
-              </Link>
-            </nav>
-          )}
-          {!props.isAuthorized && !isOnLoginPage && (
-            <nav>
-              <Link color="textPrimary" to={ROUTES.LOGIN} className={classes.link}>
-                Login
-              </Link>
-            </nav>
-          )}
-          {!props.isAuthorized && !isOnSignupPage && (
-            <Button variant="outlined" className={classes.link}>
-              <Link color="textPrimary" to={ROUTES.SIGNUP}>
-                Create Account
-              </Link>
+          { isOnSignupPage && !isAuthenticated && (
+            <Button variant="outlined" href={`${ROUTES.LOGIN}`}>
+              Login
             </Button>
+          )}
+          { isOnLoginPage && !isAuthenticated && (
+            <Button variant="outlined" href={`${ROUTES.SIGNUP}`}>
+              Create Account
+            </Button>
+          )}
+          { isAuthenticated && (
+            <React.Fragment>
+              <nav>
+                <Button className={classes.link}>
+                  <Link color="textPrimary" to={ROUTES.PROFILE}>
+                    {`${user.firstName} ${user.lastName}`}
+                  </Link>
+                </Button>
+              </nav>
+              <nav>
+                <Button variant="outlined" className={classes.link} onClick={() => logout()}>
+                  Logout
+                </Button>
+              </nav>
+            </React.Fragment>
           )}
         </Toolbar>
       </AppBar>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -7,18 +8,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import profileImage from '../../hi.jpg';
 import Link from '../../components/Link';
 import { ROUTES } from '../../constant';
-
-const user = {
-  firstName: 'first name',
-  lastName: 'last name',
-  address: 'address',
-  phoneNumber: '7452145254',
-  email: 'abc@yopmaic.com',
-  dateOfBirth: '22/45/4441',
-};
+import { getMe } from './reducer';
 
 const useStyles = makeStyles({
   profileImage: {
@@ -43,19 +35,23 @@ const useStyles = makeStyles({
   },
 });
 
-const Profile = () => {
+const Profile = ({ user, getMe }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    getMe();
+  }, []);
 
   return (
     <Box m={4}>
       <Grid container justify="center">
-        <Grid item md={6} xs={12}>
+        <Grid item md={8} xs={12}>
           <Card>
             <Box p={4} className={classes.wrapper}>
               <Grid container>
-                <Grid item sm={4} xs={12}>
+                <Grid item sm={5} xs={12}>
                   <div className={classes.image}>
-                    <Avatar alt="Remy Sharp" src={profileImage} className={classes.profileImage} />
+                    <Avatar alt="Remy Sharp" src={user.profilePicUrl} className={classes.profileImage} />
                     <Button variant="outlined" className={classes.link}>
                       <Link color="textPrimary" to={ROUTES.EDIT_PROFILE}>
                         Edit Profile
@@ -63,7 +59,7 @@ const Profile = () => {
                     </Button>
                   </div>
                 </Grid>
-                <Grid item sm={8} xs={12}>
+                <Grid item sm={7} xs={12}>
                   <Hidden mdUp>
                     <Box pt={2} />
                   </Hidden>
@@ -96,4 +92,14 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+const matchDispatchToProps = {
+  getMe,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+  }
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Profile);

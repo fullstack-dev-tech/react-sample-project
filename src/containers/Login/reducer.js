@@ -21,13 +21,16 @@ const configSlice = createSlice({
       state.state = API_CALL_STATUS.FAILURE;
       state.error = action.payload;
       state.loading = false;
-    }
+    },
+    logout(state) {
+      state.state = API_CALL_STATUS.NOT_STARTED;
+    },
   }
 })
 
 const { actions, reducer } = configSlice;
 
-export const { login, loginSuccess, loginFailure } = actions;
+export const { login, loginSuccess, loginFailure, logout } = actions;
 
 export default reducer;
 

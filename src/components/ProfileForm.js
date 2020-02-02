@@ -5,12 +5,10 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import InputField from './Forms/InputField';
-import { validate } from '../validation';
 import UploadFile from './Forms/UploadFile'
 
 const useStyles = makeStyles(theme => ({
   card: {
-    // marginTop: theme.spacing(8),
     padding: theme.spacing(4, 3),
     display: 'flex',
     flexDirection: 'column',
@@ -25,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
   },
 }));
 
@@ -34,6 +32,10 @@ const ProfileForm = ({
   handleSubmit,
   values,
   submitActionText,
+  securityQuestions,
+  showPasswordField = true,
+  validateFormInputs,
+  disableEmail = false,
 }) => {
   const classes = useStyles();
 
@@ -43,20 +45,23 @@ const ProfileForm = ({
   const [address, setAddress] = useState(values.address);
   const [email, setEmail] = useState(values.email);
   const [dateOfBirth, setDateOfBirth] = useState(values.dateOfBirth);
+
   const [password, setPassword] = useState(values.password);
-  const [answerOne, setAnswerOne] = useState(values.password);
-  const [answerTwo, setAnswerTwo] = useState(values.password);
-  const [answerThree, setAnswerThree] = useState(values.password);
   const [confirmPassword, setConfirmPassword] = useState(values.confirmPassword);
+  
+  const [answerOne, setAnswerOne] = useState(values.answerOne);
+  const [answerTwo, setAnswerTwo] = useState(values.answerTwo);
+  const [answerThree, setAnswerThree] = useState(values.answerThree);
+  
   const [error, setError] = useState({});
-  const [profilePicUrl, setProfilePicUrl] = useState(values.profilePicUrl);
+  const [profilePic, setProfilePic] = useState(values.profilePic);
 
   const onImageUpload = (event) => {
-    setProfilePicUrl(event.target.files[0])
+    setProfilePic(event.target.files[0])
   };
 
   const onSubmit = () => {
-    const errors = validate({
+    const errors = validateFormInputs({
       firstName,
       lastName,
       email,
@@ -65,6 +70,7 @@ const ProfileForm = ({
       phoneNumber,
       dateOfBirth,
       address,
+      profilePic,
     });
 
     if (Object.entries(errors).length === 0) {
@@ -76,13 +82,13 @@ const ProfileForm = ({
         email,
         dateOfBirth,
         password,
-        profilePicUrl,
+        profilePic,
       });
     } else {
-      setError(errors);
       setPassword('');
       setConfirmPassword('');
     }
+    setError(errors);
   }
 
   return (
@@ -139,6 +145,7 @@ const ProfileForm = ({
               value={email}
               onChange={event => setEmail(event.target.value)}
               error={error.email}
+              disabled={disableEmail}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -146,55 +153,71 @@ const ProfileForm = ({
               required
               label="Address"
               value={address}
-              error={error.address}
               onChange={event => setAddress(event.target.value)}
+              error={error.address}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputField
-              required
-              label="Password"
-              type="password"
-              value={password}
-              onChange={event => setPassword(event.target.value)}
-              error={error.password}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputField
-              required
-              label="Confirm Password"
-              type="password"
-              value={confirmPassword}
-              onChange={event => setConfirmPassword(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
-              required
-              label="Question 1 goes here..........."
-              value={answerOne}
-              onChange={event => setAnswerOne(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
-              required
-              label="Question 2 goes here..........."
-              value={answerTwo}
-              onChange={event => setAnswerTwo(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
-              required
-              label="Question 3 goes here..........."
-              value={answerThree}
-              onChange={event => setAnswerThree(event.target.value)}
-            />
-          </Grid>
+          {
+            showPasswordField && 
+            <React.Fragment>
+              <Grid item xs={12} sm={6}>
+                <InputField
+                  required
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  error={error.password}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <InputField
+                  required
+                  label="Confirm Password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={event => setConfirmPassword(event.target.value)}
+                  error={error.confirmPassword}
+                />
+              </Grid>
+            </React.Fragment>
+          }
+          {
+            securityQuestions && securityQuestions.length > 0 && 
+            (
+              <React.Fragment>
+                <Grid item xs={12}>
+                  <InputField
+                    required
+                    label={securityQuestions[0].description}
+                    value={answerOne}
+                    onChange={event => setAnswerOne(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputField
+                    required
+                    label={securityQuestions[1].description}
+                    value={answerTwo}
+                    onChange={event => setAnswerTwo(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputField
+                    required
+                    label={securityQuestions[2].description}
+                    value={answerThree}
+                    onChange={event => setAnswerThree(event.target.value)}
+                  />
+                </Grid>
+              </React.Fragment>
+            )
+          }
         </Grid>
-        <UploadFile onChange={event => onImageUpload(event)} />
+        <UploadFile 
+          onChange={event => onImageUpload(event)} 
+          imageName={profilePic && profilePic.name}
+        />
         <Button
           fullWidth
           variant="contained"
@@ -217,7 +240,11 @@ ProfileForm.defaultProps = {
     address: '',
     phoneNumber: '',
     dateOfBirth: '',
+    profilePic: null,
     password: '',
+    answerOne: '',
+    answerTwo: '',
+    answerThree: '',
   },
 };
 
