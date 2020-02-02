@@ -10,30 +10,30 @@ import {
 } from './reducer';
 import { ROUTES } from '../../constant';
 import history from '../../app/history';
+import { setOpen } from '../Notifications/reducer';
 
 function* signUpUserSaga(action) {
   try {
-    console.log('Signup Started');
     yield call(firebaseActions.signUpUser, action.payload);
-    console.log('Signup Success: ');
     yield put({ type: signupSuccess.type });
-    history.push(ROUTES.LOGIN);
+    yield put({ type: setOpen.type, payload: { isSuccess: true, message: 'SignUp Success!!!!' } })
+    history.push(ROUTES.PROFILE);
   }
   catch (error) {
     console.log('Error in Signup: ', error);
+    yield put({ type: setOpen.type, payload: { isSuccess: false, message: error.message } })
     yield put({ type: signupFailure.type, payload: error.message });
   }
 }
 
 function* getSecurityQuestionsSaga(action) {
   try {
-    console.log('Firing Security Questions-----:  ');
     const data = yield call(firebaseActions.getSecurityQuestions, action.payload);
-    console.log('Got Security Questions: ');
     yield put({ type: getSecurityQuestionsSuccess.type, payload: data });
   }
   catch (error) {
     console.log('Error in Security Questions: ', error);
+    yield put({ type: setOpen.type, payload: { isSuccess: false, message: error.message } })
     yield put({ type: getSecurityQuestionsFailure.type, payload: error.message });
   }
 }

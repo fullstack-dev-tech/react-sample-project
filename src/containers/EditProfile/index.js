@@ -27,6 +27,7 @@ const EditProfile = props => {
           showPasswordField={false}
           disableEmail={true}
           validateFormInputs={validateEditProfile}
+          loading={props.loading}
         />
       </Box>
     </Container>
@@ -36,6 +37,7 @@ const EditProfile = props => {
 const mapStateToProps = (state) => {
   return {
     user: state.user.user,
+    loading: state.edit.loading,
   };
 };
 

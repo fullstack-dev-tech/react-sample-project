@@ -7,17 +7,18 @@ import {
 } from './reducer';
 import { ROUTES } from '../../constant';
 import history from '../../app/history';
+import { setOpen } from '../Notifications/reducer';
 
 function* editProfileSaga(action) {
   try {
-    console.log('Edit Profile Started');
     yield call(updateUser, action.payload);
-    console.log('Edit Profile Success: ');
     yield put({ type: editProfileSuccess.type });
+    yield put({ type: setOpen.type, payload: { isSuccess: true, message: 'User Update Success!!!!' } })
     history.push(ROUTES.PROFILE);
   }
   catch (error) {
     console.log('Error in Edit Profile: ', error);
+    yield put({ type: setOpen.type, payload: { isSuccess: false, message: error.message } })
     yield put({ type: editProfileFailure.type, payload: error.message });
   }
 }

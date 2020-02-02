@@ -8,6 +8,9 @@ export const setUserData = ({
   email,
   dateOfBirth,
   profilePicUrl, 
+  answerOne,
+  answerTwo,
+  answerThree,
 }) => db
   .collection('users')
   .doc(`${email}`)
@@ -18,7 +21,10 @@ export const setUserData = ({
     address,
     email,
     dateOfBirth,
-    profilePicUrl, 
+    profilePicUrl,
+    answerOne,
+    answerTwo,
+    answerThree,
   });
 
 export const getUserDetail = async () => {

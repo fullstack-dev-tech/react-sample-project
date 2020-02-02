@@ -20,7 +20,6 @@ const SignUp = props => {
   }, [props.history, props.isAuthenticated])
 
   const handleSubmit = (values) => {
-    // console.log(values);
     props.signup(values);
   };
 
@@ -33,6 +32,7 @@ const SignUp = props => {
           submitActionText="Sign Up"
           securityQuestions={props.securityQuestions}
           validateFormInputs={validateSignUp}
+          loading={props.loading}
         />
       </Box>
     </Container>
@@ -49,6 +49,7 @@ const mapStateToProps = (state) => {
   return {
     securityQuestions: state.authentication.signup.securityQuestions,
     isAuthenticated: state.user.isAuthenticated,
+    loading: state.authentication.signup.loading,
   };
 };
 

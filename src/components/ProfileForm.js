@@ -36,6 +36,7 @@ const ProfileForm = ({
   showPasswordField = true,
   validateFormInputs,
   disableEmail = false,
+  loading,
 }) => {
   const classes = useStyles();
 
@@ -71,6 +72,9 @@ const ProfileForm = ({
       dateOfBirth,
       address,
       profilePic,
+      answerOne,
+      answerTwo,
+      answerThree,
     });
 
     if (Object.entries(errors).length === 0) {
@@ -83,6 +87,9 @@ const ProfileForm = ({
         dateOfBirth,
         password,
         profilePic,
+        answerOne,
+        answerTwo,
+        answerThree,
       });
     } else {
       setPassword('');
@@ -192,6 +199,7 @@ const ProfileForm = ({
                     label={securityQuestions[0].description}
                     value={answerOne}
                     onChange={event => setAnswerOne(event.target.value)}
+                    error={error.answerOne}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -200,6 +208,7 @@ const ProfileForm = ({
                     label={securityQuestions[1].description}
                     value={answerTwo}
                     onChange={event => setAnswerTwo(event.target.value)}
+                    error={error.answerTwo}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -208,6 +217,7 @@ const ProfileForm = ({
                     label={securityQuestions[2].description}
                     value={answerThree}
                     onChange={event => setAnswerThree(event.target.value)}
+                    error={error.answerThree}
                   />
                 </Grid>
               </React.Fragment>
@@ -217,6 +227,7 @@ const ProfileForm = ({
         <UploadFile 
           onChange={event => onImageUpload(event)} 
           imageName={profilePic && profilePic.name}
+          error={error.profilePic}
         />
         <Button
           fullWidth
@@ -224,6 +235,7 @@ const ProfileForm = ({
           color="primary"
           className={classes.submit}
           onClick={onSubmit}
+          disabled={loading}
         >
           {submitActionText}
         </Button>

@@ -12,6 +12,9 @@ export const validateSignUp = values => {
     'dateOfBirth',
     'address',
     'profilePic',
+    'answerOne',
+    'answerTwo',
+    'answerThree',
   ];
 
   requiredFields.forEach(field => {
